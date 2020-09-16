@@ -9,10 +9,15 @@ app.use(bodyParser.json())
 app.use(express.json())
 
 
+
+
 //Models
 require("./models/User")
 require("./models/Planner")
 
+
+//middleware
+const requireLogin = require("./middleware/requireLogin")
 
 //Routes
 app.use(require("./routes/Auth/UserAuthRoutes"))
@@ -45,7 +50,12 @@ const db = async () => {
 db();
 
 
+app.get("/test", requireLogin, (req, res) => {
 
+
+    res.json({ user: req.user })
+
+})
 
 app.get("/", (req, res) => {
 
