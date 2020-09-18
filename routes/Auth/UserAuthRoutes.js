@@ -41,7 +41,7 @@ router.post("/user/signUp", (req, res) => {
 
                 user.save().then((newUser) => {
 
-                    res.json("User Saved")
+                    res.json({ success: "User Saved" })
 
 
                 }).catch((error) => console.log(error))

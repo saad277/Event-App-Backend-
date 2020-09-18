@@ -10,9 +10,9 @@ router.post("/planner/signUp", (req, res) => {
 
 
 
-    const { name, email, password, picture, organization, type } = req.body
+    const { name, email, password, picture, organization } = req.body
 
-    if (!name || !email || !password || !type || !organization) {
+    if (!name || !email || !password || !organization) {
 
 
         return res.status(422).json({ error: "PLease Fill All Fields" })
@@ -36,7 +36,6 @@ router.post("/planner/signUp", (req, res) => {
                     password: hashedPassword,
                     name: name,
                     picture: picture,
-                    type: type,
                     organization: organization
 
                 })
