@@ -22,84 +22,84 @@ router.post("/signIn", async (req, res) => {
     }
 
 
-   
-
-        User.findOne({ email: email })
-            .then((savedUser) => {
-
-                if (savedUser) {
-
-                    bcrypt.compare(password, savedUser.password)
-                        .then((doMatch) => {
-
-                            console.log("matching")
-                            console.log(doMatch)
-
-                            if (doMatch) {
-
-                                const token = jwt.sign({ _id: savedUser._id }, JWTKey)
-
-                                const { _id, name, email, picture } = savedUser;
-
-                                return res.json({ token, user: { _id, name, email, picture } })
-
-                            } else {
-
-                                return res.json({ error: "Invalid Credentials" })
-                            }
-
-                        })
-                } else {
 
 
-                    Planner.findOne({ email: email })
-                        .then((savedPlanner) => {
+    User.findOne({ email: email })
+        .then((savedUser) => {
+
+            if (savedUser) {
+
+                bcrypt.compare(password, savedUser.password)
+                    .then((doMatch) => {
+
+                        console.log("matching")
+                        console.log(doMatch)
+
+                        if (doMatch) {
+
+                            const token = jwt.sign({ _id: savedUser._id }, JWTKey)
+
+                            const { _id, name, email, picture } = savedUser;
+
+                            return res.json({ token, user: { _id, name, email, picture } })
+
+                        } else {
+
+                            return res.json({ error: "Invalid Credentials" })
+                        }
+
+                    })
+            } else {
 
 
-                            if (savedPlanner) {
-
-                                bcrypt.compare(password, savedPlanner.password)
-                                    .then((doMatch) => {
-
-                                        console.log("matching")
-                                        console.log(doMatch)
-
-                                        if (doMatch) {
-
-                                            const token = jwt.sign({ _id: savedPlanner._id }, JWTKey)
-
-                                            const { _id, name, picture, type, organization } = savedPlanner;
-
-                                            return res.json({ token, user: { _id, name, email, picture, type, organization } })
-
-                                        } else {
-
-                                            return res.json({ error: "Invalid Credentials" })
-                                        }
-
-                                    })
-                            } else {
+                Planner.findOne({ email: email })
+                    .then((savedPlanner) => {
 
 
-                                return res.json({ error: "Invalid Credentials" })
-                            }
+                        if (savedPlanner) {
 
-                        })
+                            bcrypt.compare(password, savedPlanner.password)
+                                .then((doMatch) => {
 
-                }
+                                    console.log("matching")
+                                    console.log(doMatch)
+
+                                    if (doMatch) {
+
+                                        const token = jwt.sign({ _id: savedPlanner._id }, JWTKey)
+
+                                        const { _id, name, picture, type, organization } = savedPlanner;
+
+                                        return res.json({ token, planner: { _id, name, email, picture, type, organization } })
+
+                                    } else {
+
+                                        return res.json({ error: "Invalid Credentials" })
+                                    }
+
+                                })
+                        } else {
 
 
+                            return res.json({ error: "Invalid Credentials" })
+                        }
+
+                    })
+
+            }
 
 
 
-            })
 
 
-    
+        })
 
 
 
-   
+
+
+
+
 
 
 
