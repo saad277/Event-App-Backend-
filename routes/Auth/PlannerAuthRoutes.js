@@ -42,7 +42,7 @@ router.post("/planner/signUp", (req, res) => {
 
                 planner.save().then((NewPlanner) => {
 
-                    res.json("Planner Saved")
+                    res.json({ success: "Planner Saved" })
 
 
                 }).catch((error) => console.log(error))
