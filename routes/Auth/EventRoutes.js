@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
-const bcrypt = require("bcrypt")
 const Event = mongoose.model("Event")
 
 const requireLogin = require("../../middleware/requireLogin")
@@ -49,7 +48,8 @@ router.post("/createEvent", requireLogin, (req, res) => {
                 picture: picture,
                 country: eventLocation.country,
                 city: eventLocation.county,
-                loc: {
+                area:eventLocation.label,
+                location: {
                     type: "Point",
                     coordinates: [eventLocation.latitude, eventLocation.longitude]
                 }
@@ -63,6 +63,36 @@ router.post("/createEvent", requireLogin, (req, res) => {
 
         }).catch((error) => console.log(error))
 
+
+})
+
+
+
+
+router.post("/findNearestEvent", requireLogin, (req, res) => {
+
+
+    const { latitude, longitude } = req.body
+
+    
+
+    Event.find({
+
+        location: {
+
+            $near: {
+                $maxDistance: 1000,
+
+                $geometry: {
+                    type: "Point",
+                    coordinates: [24.8585, 67.04107]
+                }
+            }
+        }
+    }).then(result => {
+
+        res.json({ result })
+    })
 
 })
 

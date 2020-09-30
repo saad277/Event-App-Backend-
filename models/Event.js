@@ -27,12 +27,12 @@ const EventScheme = new mongoose.Schema({
     },
 
     fromDate: {
-        type: String,
+        type: Date,
         required: true
     },
 
     toDate: {
-        type: String,
+        type: Date,
         required: true
     },
 
@@ -68,7 +68,12 @@ const EventScheme = new mongoose.Schema({
         required: true,
 
     },
-    loc: {
+    area: {
+        type: String,
+        required: true,
+
+    },
+    location: {
         type: {
             type: String,
             enum: ['Point'], // 'location.type' must be 'Point'
@@ -81,5 +86,7 @@ const EventScheme = new mongoose.Schema({
 
 
 })
+
+EventScheme.index({ location: "2dsphere" });
 
 mongoose.model("Event", EventScheme)
