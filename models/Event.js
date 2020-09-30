@@ -26,12 +26,12 @@ const EventScheme = new mongoose.Schema({
         required: true
     },
 
-    from: {
+    fromDate: {
         type: String,
         required: true
     },
 
-    to: {
+    toDate: {
         type: String,
         required: true
     },
@@ -50,11 +50,32 @@ const EventScheme = new mongoose.Schema({
         { type: ObjectId, ref: "User" }
     ],
 
-    by:{
-        type:String,
-        required:true
-    }
+    by: {
+        type: String,
+        required: true
+    },
+    picture: {
+        type: String,
+        required: true
+    },
+    country: {
 
+        type: String,
+        required: true,
+    },
+    city: {
+        type: String,
+        required: true,
+
+    },
+    loc: {
+        type: {
+            type: String,
+            enum: ['Point'], // 'location.type' must be 'Point'
+            required: true
+        },
+        coordinates: [Number]
+    },
 
 
 

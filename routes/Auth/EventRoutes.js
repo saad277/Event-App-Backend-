@@ -12,10 +12,12 @@ const requireLogin = require("../../middleware/requireLogin")
 router.post("/createEvent", requireLogin, (req, res) => {
 
 
-    const { name, description, type, from, to, capacity, price, by } = req.body
+    const { name, description, type, fromDate, toDate, capacity, price, by, picture, eventLocation } = req.body
 
 
-    if (!name || !description || !type || !from || !to || !capacity || !price || !by) {
+    //console.log(name, description, type, fromDate, toDate, capacity, price, by, picture, eventLocation)
+
+    if (!name || !description || !type || !fromDate || !toDate || !capacity || !price || !by || !picture || !eventLocation) {
 
 
         return res.status(422).json({ error: "PLease Fill All Fields" })
@@ -39,15 +41,22 @@ router.post("/createEvent", requireLogin, (req, res) => {
                 name: name,
                 description: description,
                 type: type,
-                from: from,
-                to: to,
+                fromDate: fromDate,
+                toDate: toDate,
                 capacity: capacity,
                 price: price,
                 by: by,
+                picture: picture,
+                country: eventLocation.country,
+                city: eventLocation.county,
+                loc: {
+                    type: "Point",
+                    coordinates: [eventLocation.latitude, eventLocation.longitude]
+                }
             })
 
-            event.save().then((newEvent)=>{
-               
+            event.save().then((newEvent) => {
+
                 res.json({ success: "Event Saved" })
 
             }).catch((error) => console.log(error))
@@ -58,4 +67,4 @@ router.post("/createEvent", requireLogin, (req, res) => {
 })
 
 
-module.exports=router
+module.exports = router
