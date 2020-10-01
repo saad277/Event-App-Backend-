@@ -48,7 +48,8 @@ router.post("/createEvent", requireLogin, (req, res) => {
                 picture: picture,
                 country: eventLocation.country,
                 city: eventLocation.county,
-                area:eventLocation.label,
+                area: eventLocation.label,
+                postedBy: req.user,
                 location: {
                     type: "Point",
                     coordinates: [eventLocation.latitude, eventLocation.longitude]
@@ -68,13 +69,31 @@ router.post("/createEvent", requireLogin, (req, res) => {
 
 
 
+router.post("/myEvents",requireLogin,(req,res)=>{
+
+
+    Event.find({postedBy:req.user._id})
+   
+    .then((result)=>{
+
+
+        res.json({ result:result })
+
+
+    }).catch((error) => console.log(error))
+
+
+})
+
+
+
 
 router.post("/findNearestEvent", requireLogin, (req, res) => {
 
 
     const { latitude, longitude } = req.body
 
-    
+
 
     Event.find({
 

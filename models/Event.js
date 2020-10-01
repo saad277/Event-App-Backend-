@@ -73,6 +73,12 @@ const EventScheme = new mongoose.Schema({
         required: true,
 
     },
+    
+     postedBy:{
+        type:ObjectId,   //this is id of user who posted
+        ref:"Planner"
+
+    },
     location: {
         type: {
             type: String,
