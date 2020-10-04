@@ -69,18 +69,18 @@ router.post("/createEvent", requireLogin, (req, res) => {
 
 
 
-router.post("/myEvents",requireLogin,(req,res)=>{
+router.get("/myEvents", requireLogin, (req, res) => {
 
 
-    Event.find({postedBy:req.user._id})
-   
-    .then((result)=>{
+    Event.find({ postedBy: req.user._id })
+
+        .then((result) => {
 
 
-        res.json({ result:result })
+            res.json({ result: result })
 
 
-    }).catch((error) => console.log(error))
+        }).catch((error) => console.log(error))
 
 
 })
@@ -111,7 +111,43 @@ router.post("/findNearestEvent", requireLogin, (req, res) => {
     }).then(result => {
 
         res.json({ result })
-    })
+
+    }).catch((error) => console.log(error))
+
+})
+
+
+
+
+router.get("/homeEvents", requireLogin, (req, res) => {
+
+
+    Event.aggregate([{ $sample: { size: 2 } }])
+        .then((result) => {
+
+
+            res.json({ result })
+
+        }).catch((error) => console.log(error))
+
+
+})
+
+
+router.get("/eventFindType", requireLogin, (req, res) => {
+
+
+    const { type } = req.body
+
+    Event.find({ type: "Tour" })
+        .then((result) => {
+
+
+            res.json({ result })
+
+        }).catch((error) => console.log(error))
+
+
 
 })
 
