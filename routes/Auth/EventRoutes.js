@@ -88,19 +88,19 @@ router.get("/myEvents", requireLogin, (req, res) => {
 
 
 
-router.post("/findNearestEvent", requireLogin, (req, res) => {
+router.get("/findNearestEvent", requireLogin, (req, res) => {
 
 
     const { latitude, longitude } = req.body
 
-
+    console.log(req.query)
 
     Event.find({
 
         location: {
 
             $near: {
-                $maxDistance: 1000,
+                $maxDistance: 10000,
 
                 $geometry: {
                     type: "Point",
@@ -122,7 +122,7 @@ router.post("/findNearestEvent", requireLogin, (req, res) => {
 router.get("/homeEvents", requireLogin, (req, res) => {
 
 
-    Event.aggregate([{ $sample: { size: 2 } }])
+    Event.aggregate([{ $sample: { size: 6 } }])
         .then((result) => {
 
 
@@ -152,4 +152,27 @@ router.get("/eventFindType", requireLogin, (req, res) => {
 })
 
 
+router.get("/allEvents", requireLogin, (req, res) => {
+
+
+
+
+    Event.find()
+        .then((result) => {
+
+
+            res.json({ result })
+
+        }).catch((error) => console.log(error))
+
+
+
+})
+
+
 module.exports = router
+
+
+
+
+

@@ -17,7 +17,8 @@ module.exports = (req, res, next) => {
 
 
     jwt.verify(token, JWTKey, (error, payload) => {
-
+	
+console.log(payload)
 
         if (error) {
             return res.status(401).json({ error: "you must be logged in" })
