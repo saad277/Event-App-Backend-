@@ -88,12 +88,13 @@ router.get("/myEvents", requireLogin, (req, res) => {
 
 
 
-router.get("/findNearestEvent", requireLogin, (req, res) => {
+router.post("/findNearestEvent", requireLogin, (req, res) => {
 
 
     const { latitude, longitude } = req.body
 
-    console.log(req.query)
+    console.log("latitude -- >" + latitude)
+    console.log("longitude-- >" + longitude)
 
     Event.find({
 
@@ -104,7 +105,7 @@ router.get("/findNearestEvent", requireLogin, (req, res) => {
 
                 $geometry: {
                     type: "Point",
-                    coordinates: [24.8585, 67.04107]
+                    coordinates: [latitude, longitude]
                 }
             }
         }
