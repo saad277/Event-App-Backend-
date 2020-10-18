@@ -15,6 +15,7 @@ app.use(express.json())
 require("./models/User")
 require("./models/Planner")
 require("./models/Event")
+require("./models/Recipient")
 
 
 //middleware
@@ -25,6 +26,7 @@ app.use(require("./routes/Auth/UserAuthRoutes"))
 app.use(require("./routes/Auth/PlannerAuthRoutes"))
 app.use(require("./routes/Auth/AuthRoutes"))
 app.use(require("./routes/Auth/EventRoutes"))
+app.use(require("./routes/Auth/UserRoutes"))
 
 const db = async () => {
 

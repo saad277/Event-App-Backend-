@@ -47,7 +47,7 @@ const EventScheme = new mongoose.Schema({
     },
 
     members: [
-        { type: ObjectId, ref: "User" }
+        { userId: { type: ObjectId, ref: "User" }, recipientId: { type: ObjectId, ref: "Recipient" } }
     ],
 
     by: {
@@ -73,10 +73,10 @@ const EventScheme = new mongoose.Schema({
         required: true,
 
     },
-    
-     postedBy:{
-        type:ObjectId,   //this is id of user who posted
-        ref:"Planner"
+
+    postedBy: {
+        type: ObjectId,   //this is id of user who posted
+        ref: "Planner"
 
     },
     location: {
