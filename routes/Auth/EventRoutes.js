@@ -124,6 +124,10 @@ router.get("/homeEvents", requireLogin, (req, res) => {
 
 
     Event.aggregate([{ $sample: { size: 6 } }])
+
+
+        // .populate("members.userId", "_id name")
+        //  .populate("members.recipientId", "_id eventName")
         .then((result) => {
 
 

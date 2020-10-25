@@ -78,7 +78,7 @@ router.post("/joinEvent", requireLogin, (req, res) => {
 
                                 } else {
 
-                                    res.json({ recipient: result, user: user, event: result2 })
+                                    res.json({ event: result2 })
                                 }
 
 
@@ -92,6 +92,29 @@ router.post("/joinEvent", requireLogin, (req, res) => {
 
         })
 
+
+
+
+
+})
+
+
+router.post("/generateRecipient", requireLogin, (req, res) => {
+
+    const { eventId, userId } = req.body
+
+    if (!eventId || !userId) {
+
+        return res.json({ error: "Invalid Fields" })
+    }
+
+    Recipient.find({ $and: [{ eventId: eventId }, { userId: userId }] })
+        .then((result) => {
+
+            res.json((result))
+
+        })
+        .catch((error) => res.json({ error: error }))
 
 
 

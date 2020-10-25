@@ -33,7 +33,7 @@ router.post("/signIn", async (req, res) => {
                     .then((doMatch) => {
 
                         console.log("matching")
-                        console.log(doMatch)
+                        console.log(savedUser)
 
                         if (doMatch) {
 
