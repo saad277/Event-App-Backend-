@@ -111,7 +111,7 @@ router.post("/generateRecipient", requireLogin, (req, res) => {
     Recipient.find({ $and: [{ eventId: eventId }, { userId: userId }] })
         .then((result) => {
 
-            res.json((result))
+            res.json({ recipient: result })
 
         })
         .catch((error) => res.json({ error: error }))
@@ -120,6 +120,23 @@ router.post("/generateRecipient", requireLogin, (req, res) => {
 
 
 })
+
+
+router.post('/searchEvent', (req, res) => {
+
+    const { name } = req.body
+
+    let userPattern = new RegExp("^" + name)
+    Event.find({ name: { $regex: userPattern } })
+
+        .then(result => {
+            res.json({ result })
+        }).catch(err => {
+            console.log(err)
+        })
+
+})
+
 
 
 module.exports = router
