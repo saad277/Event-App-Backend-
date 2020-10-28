@@ -139,4 +139,23 @@ router.post('/searchEvent', (req, res) => {
 
 
 
+router.get("/userEvents", requireLogin, (req, res) => {
+
+
+
+    User.findById({ _id: req.user._id })
+        .populate("events.eventId")
+        .then((result) => {
+
+
+            res.json({ result: result })
+        })
+
+
+
+
+})
+
+
+
 module.exports = router
