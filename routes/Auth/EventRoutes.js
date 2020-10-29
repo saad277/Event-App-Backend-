@@ -73,6 +73,7 @@ router.get("/myEvents", requireLogin, (req, res) => {
 
 
     Event.find({ postedBy: req.user._id })
+        .populate("members.userId", "name picture email")
 
         .then((result) => {
 
