@@ -5,7 +5,8 @@ const User = mongoose.model("User")
 const Planner = mongoose.model("Planner")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const { JWTKey } = require("../../config/config")
+const { JWTKey } = require("../../config/config");
+const requireLogin = require("../../middleware/requireLogin");
 
 
 
@@ -14,7 +15,7 @@ const { JWTKey } = require("../../config/config")
 router.post("/signIn", async (req, res) => {
 
 
-    const { email, password } = req.body
+    const { email, password, cloudToken } = req.body
 
     if (!email || !password) {
 
@@ -39,9 +40,28 @@ router.post("/signIn", async (req, res) => {
 
                             const token = jwt.sign({ _id: savedUser._id }, JWTKey)
 
-                            const { _id, name, email, picture } = savedUser;
+                            const { _id } = savedUser;
 
-                            return res.json({ token, user: { _id, name, email, picture } })
+
+                            User.findOneAndUpdate(
+                                { email: email },
+                                {
+                                    $set:
+                                    {
+                                        token: cloudToken
+                                    },
+
+                                }, { new: true }
+
+                            ).then((result) => {
+
+                                const { _id, name, email, picture } = result;
+
+                                return res.json({ token, user: { _id, name, email, picture } })
+
+                            })
+
+
 
                         } else {
 
@@ -112,7 +132,42 @@ router.post("/signIn", async (req, res) => {
 })
 
 
+router.post("/logOut", requireLogin, (req, res) => {
 
+
+    console.log("//////////////")
+
+    const { email } = req.body
+
+    User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+            $set:
+            {
+                token: ""
+            },
+
+        }, { new: true }
+
+    ).then((result) => {
+
+
+
+        return res.json({ result: result })
+
+    })
+
+
+})
+
+router.post("/we",requireLogin,(req,res)=>{
+
+
+    console.log(req.user)
+
+    console.log("weeeeeeeee")
+
+})
 
 
 module.exports = router

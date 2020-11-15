@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "https://thumbs.dreamstime.com/b/man-profile-icon-gray-background-172472931.jpg"
     },
+    token: {
+
+        type: String,
+    },
 
     events: [
         { eventId: { type: ObjectId, ref: "Event" }, recipientId: { type: ObjectId, ref: "Recipient" } }
