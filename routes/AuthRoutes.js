@@ -47,7 +47,6 @@ router.post("/signIn", async (req, res) => {
       Planner.findOne({ email: email }).then((savedPlanner) => {
         if (savedPlanner) {
           bcrypt.compare(password, savedPlanner.password).then((doMatch) => {
-            console.log("matching");
             console.log(doMatch);
 
             if (doMatch) {
@@ -72,10 +71,6 @@ router.post("/signIn", async (req, res) => {
 });
 
 router.post("/logOut", requireLogin, (req, res) => {
-  console.log("//////////////");
-
-  const { email } = req.body;
-
   User.findOneAndUpdate(
     { _id: req.user._id },
     {
